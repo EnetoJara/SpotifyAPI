@@ -1,0 +1,52 @@
+<div *ngIf="artista" class="main-container animated fadeIn">
+  <div class="row">
+    <div class="col-md-3 text-center">
+      <img [src]="artista.images | sinFoto" class="img-thumbnail img-circle" [alt]="artista.name">
+      <br />
+    </div>
+    <div class="col-md-9">
+      <h3>{{artista.name}} <small>Popularidad {{artista.popularity}}</small></h3>
+      <hr />
+      <a [href]="artista.external_urls?.spotify" class="btn btn-outline-success">Ver pagina</a>
+      <a [routerLink]="['/buscar']" class="btn btn-outline-danger">Regresar</a>
+    </div>
+  </div>
+  <div *ngIf="pistas" class="container main-container">
+    <h3>Top de {{artista.name}}</h3>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="talbe-responsive">
+          <table class="table table-inverse table-hover">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Foto</th>
+                <th>Cancion</th>
+                <th>Popularidad</th>
+                <th>Preview</th>
+              </tr>
+            </thead>
+            <tr *ngFor="let track of pistas; let i = index;">
+              <td>{{i + 1}}</td>
+              <td>
+                <img [src]="track.album?.images | sinFoto" class="img-fluid img-thumbnail img-50" alt="...">
+              </td>
+              <td>{{track.name}}</td>
+              <td>{{track.popularity}} %</td>
+              <td>
+                <!-- si no tienes espotify instalado, usa el de abajo n.n -->
+                <iframe [src]="track.uri | domseguro:'https://open.spotify.com/embed?uri='"
+                  width="300" height="80" frameborder="0" allowtransparency="true">
+                </iframe>
+                <!-- <audio controls>
+                  <source [src]="track.preview_url">
+                </audio> -->
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </div>
+</div>
